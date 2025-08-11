@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>3D Container View</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/controls/OrbitControls.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xeeeeee);
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(150, 150, 150);
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    // Light
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(1, 1, 1);
+    scene.add(light);
+
+    // Konteyner sınırı (100x100x100 wireframe küp)
+    const containerGeometry = new THREE.BoxGeometry(100, 100, 100);
+    const containerMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+    const container = new THREE.Mesh(containerGeometry, containerMaterial);
+    container.position.set(50, 50, 50); // Ortalamak için
+    scene.add(container);
+
+    // Kutuları JSON'dan yükle
+    fetch("boxes.json")
+      .then(response => response.json())
+      .then(data => {
+        data.boxes.forEach(box => {
+          const geometry = new THREE.BoxGeometry(box.X, box.Y, box.Z);
+          const material = new THREE.MeshStandardMaterial({
+            color: Math.random() * 0xffffff,
+            transparent: true,
+            opacity: 0.8
+          });
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.position.set(box.posX + box.X / 2, box.posY + box.Y / 2, box.posZ + box.Z / 2);
+          scene.add(mesh);
+        });
+      });
+
+    // Render döngüsü
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
