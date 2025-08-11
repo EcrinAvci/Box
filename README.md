@@ -29,6 +29,20 @@
 - **Veri**: `data.json`, `project/placement_result.json`, `project/rl_placement_result.json`
 - **Görsel**: `project/index.html`, `project/visualization.html`, `project/style.css`
 
+### Proje Çalıştırma ve Sonuçlar
+
+Proje başarıyla çalıştırıldı ve aşağıdaki sonuçlar elde edildi:
+
+![BoxML Çalışma Ekranı](screenshot.png)
+
+**Sonuç Özeti:**
+- **Toplam Kutu**: 141 kutu işlendi
+- **Yerleştirilen**: 55 kutu başarıyla yerleştirildi
+- **Doluluk Oranı**: %94.49
+- **Toplam Hacim**: 944,909 birim³
+- **ML Tahmin**: Yeni kutular için pozisyon tahmini çalışıyor
+- **Rotasyon Optimizasyonu**: 6 farklı rotasyon ile en iyi yerleştirme
+
 ### Kısa Özet (CV için)
 - **Alan**: 3B kutu yerleştirme/optimizasyon, ML ve RL hibrit yaklaşımı
 - **ML**: ML.NET FastTree ile posX/posY/posZ regresyon modelleri, rotasyon+skorlama ile en iyi yerleştirme
